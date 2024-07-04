@@ -38,7 +38,7 @@ public class AddAduanController implements Initializable {
     @FXML
     private TextField rtRwField;
     @FXML
-    private TextArea rincianAduanArea;
+    private TextField rincianAduanArea;
     @FXML
     private ImageView uploadFotoImageView;
     @FXML

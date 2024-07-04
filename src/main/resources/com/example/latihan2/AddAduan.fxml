@@ -6,7 +6,6 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -40,7 +39,7 @@
             </HBox>
 
             <!-- Form Area -->
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="10">
+            <VBox maxWidth="-Infinity" minHeight="-Infinity" spacing="60.0">
                 <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Isi Informasi Aduan" />
                 <GridPane alignment="CENTER" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="grid-pane" vgap="10">
                     <columnConstraints>
@@ -71,11 +70,11 @@
                     </rowConstraints>
 
                     <!-- Left Column -->
-                    <Label text="Judul" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                    <TextField fx:id="judulField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <Label text="Judul" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP" />
+                    <TextField fx:id="judulField" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.valignment="TOP" />
 
                     <Label text="Kategori" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                    <ComboBox fx:id="kategoriComboBox" maxHeight="-Infinity" maxWidth="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <ComboBox fx:id="kategoriComboBox" maxHeight="-Infinity" maxWidth="-Infinity" promptText="Pilih Kategori" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                     <Label text="Lokasi" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                     <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -87,14 +86,11 @@
                     <TextField fx:id="rtRwField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
                     <!-- Right Column -->
-                    <Label text="Rincian Aduan" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-                    <TextArea fx:id="rincianAduanArea" promptText="Jelaskan lebih lanjut keluhanmu" GridPane.columnIndex="4" GridPane.rowIndex="0" GridPane.rowSpan="2">
-                  <GridPane.margin>
-                     <Insets />
-                  </GridPane.margin></TextArea>
+                    <Label text="Rincian Aduan" GridPane.columnIndex="3" GridPane.rowIndex="0" GridPane.valignment="TOP" />
+               <TextField fx:id="rincianAduanArea" alignment="TOP_LEFT" minHeight="150.0" minWidth="400.0" promptText="Jelaskan aduanmu lebih detil disini" style="-fx-padding: 0;" styleClass="detil" GridPane.columnIndex="4" GridPane.rowSpan="2" />
 
                     <Label text="Upload foto" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                    <ImageView fx:id="uploadFotoImageView" fitHeight="100" fitWidth="120.0" GridPane.columnIndex="4" GridPane.rowIndex="2" onMouseClicked="#handleUploadFoto"/>
+                    <ImageView fx:id="uploadFotoImageView" fitHeight="135.0" fitWidth="171.0" onMouseClicked="#handleUploadFoto" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.rowSpan="2" />
 
 <!--                    <Label text="Upload video" GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.valignment="TOP" />-->
 <!--                    <ImageView fx:id="uploadVideoImageView" fitHeight="100" fitWidth="100" GridPane.columnIndex="4" GridPane.rowIndex="3" />-->

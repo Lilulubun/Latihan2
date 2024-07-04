@@ -5,24 +5,26 @@
     -fx-background-radius: 5;
 }
 
-.button:hover {
-
+.grid-pane .button:hover {
+    -fx-background-color: #1FC211;
 }
 
 .text-field, .combo-box, .text-area {
     -fx-background-radius: 5;
     -fx-padding: 10;
 }
-
+.text-field .detil {
+    -fx-background-radius: 5;
+    -fx-padding: 0;
+}
 .image-view {
     -fx-border-color: lightgrey;
-    -fx-border-width: 1;
     -fx-background-radius: 5;
 }
 .grid-pane {
     -fx-padding: 10;
     -fx-hgap: 10;
-    -fx-vgap: 10;
+    -fx-vgap: 20;
     -fx-background-color: white;
     -fx-background-radius: 20;
     -fx-padding: 20;
@@ -39,16 +41,19 @@
 
 .grid-pane .text-field {
     -fx-pref-width: 200px;
+    -fx-background-color: white;
+    -fx-border-color: #2196f3;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
 }
 
 .grid-pane .combo-box {
     -fx-pref-width: 150px;
     -fx-font-size: 12;
-}
-
-.grid-pane .text-area {
-    -fx-pref-width: 400px;
-    -fx-pref-height: 150px;
+    -fx-background-color: white;
+    -fx-border-color: #2196f3;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
 }
 .grid-pane .button {
     -fx-font-size: 10;
