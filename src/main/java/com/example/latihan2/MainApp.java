@@ -1,6 +1,8 @@
 package com.example.latihan2;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,6 +12,7 @@ import java.io.IOException;
 public class MainApp extends Application {
 
     private Stage primaryStage;
+    private ObservableList<AduanModel> daftarAduan = FXCollections.observableArrayList();
     private AduanModel selectedAduan;
     private AddAduanController addAduanController;
     private UserDashboardController userDashboardController;
@@ -19,7 +22,13 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
+        loadCSVData();
         switchToAdminDashboardScene();
+    }
+    private void loadCSVData() {
+        CSVRowMapper<AduanModel> mapper = values -> new AduanModel(values[0], values[1], values[2], values[3], values[4], values[5]);
+        CSVReader<AduanModel> csvReader = new CSVReader<>("/CSV/aduan.csv", mapper);
+        daftarAduan.setAll(csvReader.readCSV());
     }
 
     public static void main(String[] args) {
@@ -64,7 +73,7 @@ public class MainApp extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("AdminDashboard.fxml"));
             Parent root = fxmlLoader.load();
             adminDashboardController = fxmlLoader.getController();
-            adminDashboardController.init(this);
+            adminDashboardController.init(this, daftarAduan);
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/CSS/adminDashboard.css").toExternalForm());
             primaryStage.setTitle("Urbanify - Dashboard");
@@ -84,7 +93,7 @@ public class MainApp extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("ArahkanMasalah.fxml"));
             Parent root = fxmlLoader.load();
             arahkanMasalahController = fxmlLoader.getController();
-            arahkanMasalahController.init(this);
+            arahkanMasalahController.init(this, selectedAduan, daftarAduan);
             arahkanMasalahController.setAduanModel(selectedAduan);
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/CSS/arahkanMasalah.css").toExternalForm());

@@ -40,7 +40,9 @@ public class ArahkanMasalahController implements Initializable {
     private TextField searchInput;
     private MainApp mainApp;
     private ObservableList<DinasModel> daftarDinas = FXCollections.observableArrayList();
+    private ObservableList<AduanModel> daftarAduan;
     private AduanModel selectedAduan;
+    private AdminDashboardController adminDashboardController;
 
 
 
@@ -50,12 +52,10 @@ public class ArahkanMasalahController implements Initializable {
         setImage(imageUrl);
 
         initializeTableColumns();
-        loadCSVData();
+//        loadCSVData();
         searchButton.setOnAction(event -> filterData());
         searchInput.setOnAction(event -> filterData());
         arahkanMasalahButton.setOnAction(event -> handleArahkanMasalah());
-        loadCSVData();
-        loadCSVData();loadCSVData();loadCSVData();
     }
     public void initializeTableColumns() {
         namaDinasColumn.setCellValueFactory(new PropertyValueFactory<>("namaDinas"));
@@ -69,13 +69,20 @@ public class ArahkanMasalahController implements Initializable {
         arahkanMasalahBG.setImage(image);
     }
 
-    public void init(MainApp mainApp) {
+    public void init(MainApp mainApp, AduanModel selectedAduan, ObservableList<AduanModel> daftarAduan) {
         this.mainApp = mainApp;
+        this.selectedAduan = selectedAduan;
+        this.daftarAduan = daftarAduan;
+        loadCSVData();
     }
     public void setAduanModel(AduanModel aduanModel) {
         this.selectedAduan = aduanModel;
     }
-    public void loadCSVData() {
+    public void setAdminDashboardController(AdminDashboardController adminDashboardController, MainApp mainApp){
+        this.adminDashboardController = adminDashboardController;
+        this.mainApp = mainApp;
+    }
+    private void loadCSVData() {
         CSVRowMapper<DinasModel> mapper = values -> new DinasModel(values[0], values[1], values[2], values[3], values[4]);
         CSVReader<DinasModel> csvReader = new CSVReader<>("/CSV/daftarDinas.csv", mapper);
         daftarDinas.setAll(csvReader.readCSV());
@@ -105,9 +112,17 @@ public class ArahkanMasalahController implements Initializable {
         } else {
             selectedAduan.setStatus("Diarahkan ke " + selectedDinas.getNamaDinas());
             updateAduanStatusInCSV(selectedAduan);
-            mainApp.getAdminDashboardController().loadCSVData();
+            updateAduanStatusInMemory(selectedAduan);
             showAlert("Sukses", "Aduan Berhasil diarahkan");
             mainApp.switchToAdminDashboardScene();
+        }
+    }
+    private void updateAduanStatusInMemory(AduanModel updatedAduan) {
+        for (AduanModel aduan : daftarAduan) {
+            if (aduan.getProfil().equals(updatedAduan.getProfil()) && aduan.getJudul().equals(updatedAduan.getJudul())) {
+                aduan.setStatus(updatedAduan.getStatus());
+                break;
+            }
         }
     }
     private void updateAduanStatusInCSV(AduanModel updatedAduan) {
@@ -155,7 +170,6 @@ public class ArahkanMasalahController implements Initializable {
             showAlert("Error", "Failed to write to CSV file.");
             e.printStackTrace();
         }
-        mainApp.getAdminDashboardController().loadCSVData(); // Add this line to reload data in AdminDashboardController
     }
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

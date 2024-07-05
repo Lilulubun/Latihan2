@@ -43,12 +43,14 @@ public class AdminDashboardController implements Initializable {
     @FXML
     private ImageView adminDashboardBG;
     private MainApp mainApp;
-    private ObservableList<AduanModel> daftarAduan = FXCollections.observableArrayList();
-    private ScheduledExecutorService scheduler;
+    private ObservableList<AduanModel> daftarAduan;
 
 
-    public void init(MainApp mainApp) {
+
+    public void init(MainApp mainApp, ObservableList<AduanModel> daftarAduan) {
         this.mainApp = mainApp;
+        this.daftarAduan = daftarAduan;
+        loadData();
     }
 
     @Override
@@ -58,16 +60,16 @@ public class AdminDashboardController implements Initializable {
         // Initialize table columns
         initializeTableColumns();
         // Load data from CSV
-        loadCSVData();
+//        loadCSVData();
         // Set search button action
         searchButton.setOnAction(event -> filterData());
         searchInput.setOnAction(event -> filterData());
         arahkanMasalahButton.setOnAction(this::handleArahkanMasalahAction);
-        scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(this::loadCSVData, 0, 5, TimeUnit.SECONDS);
     }
 
-
+    private void loadData() {
+        tableView.setItems(daftarAduan);
+    }
     private void setImage(String imageUrl) {
         Image image = new Image(getClass().getResourceAsStream(imageUrl));
         adminDashboardBG.setImage(image);
@@ -88,17 +90,9 @@ public class AdminDashboardController implements Initializable {
 //        aduanList.setAll(csvReader.readCSV());
         // Ensure the update happens on the JavaFX Application Thread
         List<AduanModel> aduanList = csvReader.readCSV();
-        Platform.runLater(() -> {
-            daftarAduan.setAll(aduanList);
-            tableView.setItems(daftarAduan);
-        });
+        daftarAduan.setAll(aduanList);
+        tableView.setItems(daftarAduan);
     }
-        // Ensure the scheduler is properly shutdown when the application stops
-        public void stop () {
-            if (scheduler != null && !scheduler.isShutdown()) {
-                scheduler.shutdown();
-            }
-        }
 
 
 
