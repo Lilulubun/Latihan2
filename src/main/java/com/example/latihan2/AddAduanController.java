@@ -20,6 +20,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddAduanController implements Initializable {
@@ -42,8 +44,6 @@ public class AddAduanController implements Initializable {
     @FXML
     private ImageView uploadFotoImageView;
     @FXML
-    private ImageView uploadVideoImageView;
-    @FXML
     private Button batalButton;
     @FXML
     private Button simpanButton;
@@ -52,14 +52,18 @@ public class AddAduanController implements Initializable {
     private File selectedImageFile;
     private File copiedImageFile;
     private CSVReader<AduanModel> csvReader;
+    private List<AduanModel> aduanModelList;
     private CSVRowMapper<AduanModel> csvRowMapper;
     private MainApp mainApp;
 
     public AddAduanController(){
         this.csvReader = new CSVReader<>("aduan.csv", this::mapToAduanModel);
         this.csvRowMapper = this::mapToAduanModel;
+        this.aduanModelList = new ArrayList<>();
     }
-
+    public void setUserDashboardController(UserDashboardController userDashboardController) {
+        this.userDashboardController = userDashboardController;
+    }
     public void init(MainApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -143,6 +147,9 @@ public class AddAduanController implements Initializable {
 
             // Notify user of success
             showAlert(Alert.AlertType.INFORMATION, "Success", "Aduan berhasil disimpan!");
+            AduanModel newAduanModel = mapToAduanModel(csvData.split(","));
+            mainApp.addAduan(newAduanModel); // Add to daftarAduan list
+//            userDashboardController.updateTableData(newAduanModel);
             switchToUserDashboardScene();
 
         } catch (IOException e) {

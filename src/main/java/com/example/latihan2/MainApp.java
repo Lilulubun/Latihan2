@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.List;
 
 public class MainApp extends Application {
 
@@ -23,12 +24,13 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         loadCSVData();
-        switchToAdminDashboardScene();
+        switchToUserDashboardScene();
     }
     private void loadCSVData() {
         CSVRowMapper<AduanModel> mapper = values -> new AduanModel(values[0], values[1], values[2], values[3], values[4], values[5]);
         CSVReader<AduanModel> csvReader = new CSVReader<>("/CSV/aduan.csv", mapper);
-        daftarAduan.setAll(csvReader.readCSV());
+        List<AduanModel> aduanList = csvReader.readCSV();
+        daftarAduan.setAll(aduanList);
     }
 
     public static void main(String[] args) {
@@ -41,6 +43,7 @@ public class MainApp extends Application {
             Parent root = fxmlLoader.load();
             addAduanController = fxmlLoader.getController();
             addAduanController.init(this);
+            addAduanController.setUserDashboardController(userDashboardController);
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/CSS/addAduan.css").toExternalForm());
             primaryStage.setTitle("Urbanify - Solusi cepat keluhanmu");
@@ -57,7 +60,8 @@ public class MainApp extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("UserDashboard.fxml"));
             Parent root = fxmlLoader.load();
             userDashboardController = fxmlLoader.getController();
-            userDashboardController.init(this);
+            userDashboardController.init(this, daftarAduan);
+            userDashboardController.refreshTableData(); // Refresh da
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/CSS/userDashboard.css").toExternalForm());
             primaryStage.setTitle("Urbanify - Dashboard");
@@ -110,5 +114,8 @@ public class MainApp extends Application {
     }
     public AduanModel getSelectedAduan() {
         return selectedAduan;
+    }
+    public void addAduan(AduanModel aduan) {
+        daftarAduan.add(aduan);
     }
 }

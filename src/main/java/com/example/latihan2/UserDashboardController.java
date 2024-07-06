@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -43,10 +44,39 @@ public class UserDashboardController implements Initializable {
     @FXML
     private Button addAduanButton;
     private ObservableList<AduanModel> aduanList = FXCollections.observableArrayList();
+    private List<AduanModel> aduanModelList = new ArrayList<>();
     private MainApp mainApp;
 
-    public void init(MainApp mainApp) {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        String imageUrl = "/images/UserDashboard.png";
+        setImage(imageUrl);
+        // Initialize table columns
+        initializeTableColumns();
+        // Load data from CSV
+//        loadCSVDataToList();
+//        tableView.setItems(aduanList);
+        addAduanButton.setOnAction(event -> handleAddAduanAction());
+        // Set search button action
+        searchButton.setOnAction(event -> filterData());
+        searchInput.setOnAction(event -> filterData());
+    }
+    private void loadCSVDataToList() {
+        CSVRowMapper<AduanModel> mapper = values -> new AduanModel(values[0], values[1], values[2], values[3], values[4], values[5]);
+        CSVReader<AduanModel> csvReader = new CSVReader<>("/CSV/aduan.csv", mapper);
+        aduanModelList.addAll(csvReader.readCSV());
+        aduanList.setAll(aduanModelList);
+    }
+    public void updateTableData(AduanModel newAduanModel) {
+        aduanList.add(newAduanModel);
+    }
+    public void init(MainApp mainApp, ObservableList<AduanModel> daftarAduan) {
         this.mainApp = mainApp;
+        this.aduanList = daftarAduan;
+        tableView.setItems(aduanList);
+    }
+    public void refreshTableData() {
+        tableView.refresh();
     }
     private void filterData() {
         String searchText = searchInput.getText().toLowerCase();
@@ -89,31 +119,8 @@ public class UserDashboardController implements Initializable {
         //List<AduanModel> aduanList = csvReader.readCSV();
         tableView.setItems(aduanList);
     }
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        String imageUrl = "/images/UserDashboard.png";
-        setImage(imageUrl);
-        // Initialize table columns
-        initializeTableColumns();
-        // Load data from CSV
-        loadCSVData();
-        addAduanButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                handleAddAduanAction(event);
-            }
-        });
-        // Set search button action
-        searchButton.setOnAction(event -> filterData());
-        searchInput.setOnAction(event -> filterData());
-    }
-    public void handleAddAduanAction(ActionEvent event) {
+    public void handleAddAduanAction() {
         mainApp.switchToAddAduanScene();
-    }
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
     }
 }
 
