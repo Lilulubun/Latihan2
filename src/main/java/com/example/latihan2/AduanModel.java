@@ -10,16 +10,46 @@ public class AduanModel {
     private String tautanCepat;
     private String status;
     private String detil;
+    private String kategori;
+    private String kota;
 
-    public AduanModel(String profil, String judul, String waktuTempat, String tautanCepat, String status, String detil) {
+    public AduanModel(String profil, String informasiUmum, String waktuTempat, String tautanCepat, String status, String detil) {
         this.profil = profil;
-        this.judul = judul;
+        this.judul = extractJudul(informasiUmum);
+        this.kategori = extractKategori(informasiUmum);
+        this.kota = extractKota(waktuTempat);
         this.waktuTempat = waktuTempat;
         this.tautanCepat = tautanCepat;
         this.status = status;
         this.detil = detil;
     }
+    private String extractJudul(String informasiUmum) {
+        // Assuming informasiUmum format is "judul - kategori"
+        return informasiUmum.split(" - ")[0];
+    }
+
+    private String extractKategori(String informasiUmum) {
+        // Assuming informasiUmum format is "judul - kategori"
+        return informasiUmum.split(" - ")[1];
+    }
+
+    private String extractKota(String waktuTempat) {
+        // Assuming kota is the first word in waktuTempat
+        String[] parts = waktuTempat.split(" ");
+        if (parts.length > 0) {
+            return parts[0];
+        }
+        return "";
+    }
     public AduanModel() {
+    }
+
+    public String getKategori() {
+        return kategori;
+    }
+
+    public String getKota() {
+        return kota;
     }
 
     public String getProfil() {

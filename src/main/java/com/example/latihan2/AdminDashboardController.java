@@ -54,10 +54,12 @@ public class AdminDashboardController implements Initializable {
     private TextField searchInput;
     @FXML
     private ImageView adminDashboardBG;
+    @FXML
+    private Button dashboardButton;
+    @FXML
+    private Button overviewButton;
     private MainApp mainApp;
     private ObservableList<AduanModel> daftarAduan;
-    private static final String ADUAN_CSV = "/CSV/aduan.csv";
-    private static final String DELETED_ADUAN_CSV = "/CSV/deleted_aduan.csv";
 
 
 
@@ -79,6 +81,8 @@ public class AdminDashboardController implements Initializable {
         searchButton.setOnAction(event -> filterData());
         searchInput.setOnAction(event -> filterData());
         arahkanMasalahButton.setOnAction(this::handleArahkanMasalahAction);
+        dashboardButton.setOnAction(this::handleDashboardAction);
+        overviewButton.setOnAction(this::handleOverviewAction);
     }
 
     private void loadData() {
@@ -135,6 +139,12 @@ public class AdminDashboardController implements Initializable {
             mainApp.switchToArahkanMasalahScene(selectedAduan);
         }
 
+    }
+    private void handleDashboardAction(ActionEvent actionEvent) {
+        mainApp.switchToAdminDashboardScene();
+    }
+    private void handleOverviewAction(ActionEvent actionEvent){
+        mainApp.switchToAdminOverviewScene();
     }
 
     private void showAlert(String title, String content) {

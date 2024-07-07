@@ -78,7 +78,7 @@
 
                     <Label text="Lokasi" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                     <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                  <TextField fx:id="kotaField" promptText="Masukkan nama kota" />
+                  <TextField fx:id="kotaField" promptText="Kota - Kecamatan - Desa" />
                   <DatePicker fx:id="waktuField" />
                     </VBox>
 

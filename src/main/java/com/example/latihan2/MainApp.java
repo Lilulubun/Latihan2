@@ -19,12 +19,13 @@ public class MainApp extends Application {
     private UserDashboardController userDashboardController;
     private AdminDashboardController adminDashboardController;
     private ArahkanMasalahController arahkanMasalahController;
+    private AdminOverviewController adminOverviewController;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         loadCSVData();
-        switchToUserDashboardScene();
+        switchToAdminDashboardScene();
     }
     private void loadCSVData() {
         CSVRowMapper<AduanModel> mapper = values -> new AduanModel(values[0], values[1], values[2], values[3], values[4], values[5]);
@@ -47,6 +48,22 @@ public class MainApp extends Application {
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/CSS/addAduan.css").toExternalForm());
             primaryStage.setTitle("Urbanify - Solusi pasti keluhanmu");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle exception as needed
+        }
+    }
+    public void switchToAdminOverviewScene() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("AdminOverview.fxml"));
+            Parent root = fxmlLoader.load();
+            adminOverviewController = fxmlLoader.getController();
+            adminOverviewController.init(this);
+            Scene scene = new Scene(root, 1280, 720);
+            scene.getStylesheets().add(getClass().getResource("/CSS/adminOverview.css").toExternalForm());
+            primaryStage.setTitle("Urbanify - Admin Overview");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
