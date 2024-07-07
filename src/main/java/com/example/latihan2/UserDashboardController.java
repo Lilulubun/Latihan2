@@ -12,7 +12,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -43,6 +47,8 @@ public class UserDashboardController implements Initializable {
     private Button searchButton;
     @FXML
     private Button addAduanButton;
+    @FXML
+    private Button deleteAduanButton;
     private ObservableList<AduanModel> aduanList = FXCollections.observableArrayList();
     private List<AduanModel> aduanModelList = new ArrayList<>();
     private MainApp mainApp;
@@ -60,6 +66,7 @@ public class UserDashboardController implements Initializable {
         // Set search button action
         searchButton.setOnAction(event -> filterData());
         searchInput.setOnAction(event -> filterData());
+        deleteAduanButton.setOnAction(event -> handleDeleteAduanAction());
     }
     private void loadCSVDataToList() {
         CSVRowMapper<AduanModel> mapper = values -> new AduanModel(values[0], values[1], values[2], values[3], values[4], values[5]);
@@ -110,6 +117,39 @@ public class UserDashboardController implements Initializable {
     private void setImage(String imageUrl) {
         Image image = new Image(getClass().getResourceAsStream(imageUrl));
         userDashboardBG.setImage(image);
+    }
+    @FXML
+    private void handleDeleteAduanAction() {
+        AduanModel selectedAduan = tableView.getSelectionModel().getSelectedItem();
+        if (selectedAduan != null) {
+            aduanList.remove(selectedAduan);
+            aduanModelList.remove(selectedAduan);
+            saveDataToCSV();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No Aduan Selected");
+            alert.setContentText("Please select an aduan in the table.");
+            alert.showAndWait();
+        }
+    }
+    private void saveDataToCSV() {
+        Path filePath = Paths.get("src/main/resources/CSV/aduan.csv");
+        List<String> dataLines = aduanModelList.stream()
+                .map(aduan -> String.join(",",
+                        aduan.getProfil(),
+                        aduan.getJudul(),
+                        aduan.getWaktuTempat(),
+                        aduan.getTautanCepat(),
+                        aduan.getStatus(),
+                        aduan.getDetil()))
+                .collect(Collectors.toList());
+
+        try {
+            Files.write(filePath, dataLines);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadCSVData() {

@@ -10,8 +10,20 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import org.controlsfx.glyphfont.Glyph;
+import org.controlsfx.glyphfont.GlyphFont;
+import org.controlsfx.glyphfont.GlyphFontRegistry;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
@@ -44,6 +56,8 @@ public class AdminDashboardController implements Initializable {
     private ImageView adminDashboardBG;
     private MainApp mainApp;
     private ObservableList<AduanModel> daftarAduan;
+    private static final String ADUAN_CSV = "/CSV/aduan.csv";
+    private static final String DELETED_ADUAN_CSV = "/CSV/deleted_aduan.csv";
 
 
 
@@ -93,8 +107,6 @@ public class AdminDashboardController implements Initializable {
         daftarAduan.setAll(aduanList);
         tableView.setItems(daftarAduan);
     }
-
-
 
     private void filterData() {
         String searchText = searchInput.getText().toLowerCase();

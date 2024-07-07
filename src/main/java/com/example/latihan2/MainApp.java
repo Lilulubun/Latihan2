@@ -46,7 +46,7 @@ public class MainApp extends Application {
             addAduanController.setUserDashboardController(userDashboardController);
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/CSS/addAduan.css").toExternalForm());
-            primaryStage.setTitle("Urbanify - Solusi cepat keluhanmu");
+            primaryStage.setTitle("Urbanify - Solusi pasti keluhanmu");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {

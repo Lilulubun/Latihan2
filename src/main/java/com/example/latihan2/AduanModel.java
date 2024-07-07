@@ -74,6 +74,9 @@ public class AduanModel {
     public String toString() {
         return profil + "," + judul + "," + waktuTempat + "," + tautanCepat + "," + status + "," + detil;
     }
+    public String toCSVString() {
+        return String.join(",", profil, judul, waktuTempat, tautanCepat, status, detil);
+    }
     public String mapToString() {
         return toString();
     }
