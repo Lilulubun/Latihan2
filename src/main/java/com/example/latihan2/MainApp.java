@@ -8,24 +8,80 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainApp extends Application {
 
     private Stage primaryStage;
     private ObservableList<AduanModel> daftarAduan = FXCollections.observableArrayList();
+    private ObservableList<UserModel> daftarUser = FXCollections.observableArrayList();
+    private List<UserModel> users = new ArrayList<>();
     private AduanModel selectedAduan;
     private AddAduanController addAduanController;
     private UserDashboardController userDashboardController;
     private AdminDashboardController adminDashboardController;
     private ArahkanMasalahController arahkanMasalahController;
     private AdminOverviewController adminOverviewController;
+    private LoginController loginController;
+    private SignupController signupController;
+    private UserModel loggedInUser;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         loadCSVData();
-        switchToAdminDashboardScene();
+        loadUserData();
+        switchToLoginScene();
+    }
+    public void switchToLoginScene() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("Login.fxml"));
+            Parent root = fxmlLoader.load();
+            loginController = fxmlLoader.getController();
+            loginController.init(this);
+            Scene scene = new Scene(root, 1280, 720);
+            scene.getStylesheets().add(getClass().getResource("/CSS/login.css").toExternalForm());
+            primaryStage.setTitle("Urbanify - Login");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle exception as needed
+        }
+    }
+    public void switchToSignupScene() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("Signup.fxml"));
+            Parent root = fxmlLoader.load();
+            signupController = fxmlLoader.getController();
+            signupController.init(this);
+            Scene scene = new Scene(root, 1280, 720);
+            scene.getStylesheets().add(getClass().getResource("/CSS/signup.css").toExternalForm());
+            primaryStage.setTitle("Urbanify - Login");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle exception as needed
+        }
+    }
+    private void loadUserData() {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("src/main/resources/CSV/users.csv"));
+            for (String line : lines) {
+                String[] values = line.split(",");
+                String username = values[0];
+                String name = values[1];
+                String password = values[2];
+                boolean isAdmin = values[3].equalsIgnoreCase("yes");
+                users.add(new UserModel(username, name, password, isAdmin));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     private void loadCSVData() {
         CSVRowMapper<AduanModel> mapper = values -> new AduanModel(values[0], values[1], values[2], values[3], values[4], values[5]);
@@ -45,6 +101,7 @@ public class MainApp extends Application {
             addAduanController = fxmlLoader.getController();
             addAduanController.init(this);
             addAduanController.setUserDashboardController(userDashboardController);
+            addAduanController.setLoggedInUser(loggedInUser);
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/CSS/addAduan.css").toExternalForm());
             primaryStage.setTitle("Urbanify - Solusi pasti keluhanmu");
@@ -134,5 +191,24 @@ public class MainApp extends Application {
     }
     public void addAduan(AduanModel aduan) {
         daftarAduan.add(aduan);
+    }
+    public ObservableList<UserModel> getDaftarUser() {
+        return daftarUser;
+    }
+    public List<UserModel> getUsers() {
+        return users;
+    }
+    public void setLoggedInUser(UserModel loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
+    public UserModel getLoggedInUser() {
+        return loggedInUser;
+    }
+    public ObservableList<UserModel> getAllUser(){
+        ObservableList<UserModel> combinedList = FXCollections.observableArrayList();
+        combinedList.addAll(daftarUser);
+        combinedList.addAll(users);
+        return combinedList;
     }
 }

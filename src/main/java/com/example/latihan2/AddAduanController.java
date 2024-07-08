@@ -55,6 +55,7 @@ public class AddAduanController implements Initializable {
     private List<AduanModel> aduanModelList;
     private CSVRowMapper<AduanModel> csvRowMapper;
     private MainApp mainApp;
+    private UserModel loggedInUser;
 
     public AddAduanController(){
         this.csvReader = new CSVReader<>("aduan.csv", this::mapToAduanModel);
@@ -78,7 +79,7 @@ public class AddAduanController implements Initializable {
         String imageUrl = "/images/AddAduan.png";
         setImage(imageUrl);
 
-        kategoriComboBox.getItems().addAll("Kategori 1", "Kategori 2", "Kategori 3");
+        kategoriComboBox.getItems().addAll("Infrastruktur", "Transportasi", "Lingkungan", "Layanan Umum");
         String imageUpload = "/images/UploadImage.png";
         setImageUpload(imageUpload);
 
@@ -110,8 +111,11 @@ public class AddAduanController implements Initializable {
             writeAduanToCSV(csvData);
         }
     }
+    public void setLoggedInUser(UserModel loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
     private String gatherFormData() {
-        String profil = "default User";
+        String profil = loggedInUser.getUsername(); // Use the logged-in user's name
         String judul = judulField.getText();
         String kategori = kategoriComboBox.getValue();
         if (judul.isEmpty() || kategori == null) {
@@ -213,13 +217,6 @@ public class AddAduanController implements Initializable {
     }
     private void switchToUserDashboardScene() {
         mainApp.switchToUserDashboardScene();
-//        if (mainApp != null && mainApp.getUserDashboardController() != null) {
-//            mainApp.switchToUserDashboardScene();
-//            mainApp.getUserDashboardController().refreshData();// Call switchToUserDashboardScene from MainApp
-//        } else {
-//            System.err.println("mainApp or userDashboardController is null. Cannot switch scene.");
-//            // Handle null case if needed
-//        }
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {

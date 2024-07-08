@@ -49,6 +49,8 @@ public class UserDashboardController implements Initializable {
     private Button addAduanButton;
     @FXML
     private Button deleteAduanButton;
+    @FXML
+    private Label userNameLabel;
     private ObservableList<AduanModel> aduanList = FXCollections.observableArrayList();
     private List<AduanModel> aduanModelList = new ArrayList<>();
     private MainApp mainApp;
@@ -79,8 +81,22 @@ public class UserDashboardController implements Initializable {
     }
     public void init(MainApp mainApp, ObservableList<AduanModel> daftarAduan) {
         this.mainApp = mainApp;
-        this.aduanList = daftarAduan;
-        tableView.setItems(aduanList);
+        UserModel loggedInUser = mainApp.getLoggedInUser();
+        if (loggedInUser != null) {
+            String userName = loggedInUser.getName().toLowerCase();
+            ObservableList<AduanModel> filteredList = FXCollections.observableArrayList(
+                    daftarAduan.stream()
+                            .filter(aduan -> aduan.getProfil().toLowerCase().contains(userName))
+                            .collect(Collectors.toList())
+            );
+            this.aduanList = filteredList;
+            tableView.setItems(this.aduanList);
+            setUserName(loggedInUser.getName());
+        } else {
+            // Handle the case when there is no logged-in user (optional)
+            this.aduanList = daftarAduan;
+            tableView.setItems(this.aduanList);
+        }
     }
     public void refreshTableData() {
         tableView.refresh();
@@ -161,6 +177,9 @@ public class UserDashboardController implements Initializable {
     }
     public void handleAddAduanAction() {
         mainApp.switchToAddAduanScene();
+    }
+    public void setUserName(String userName) {
+        userNameLabel.setText(userName);
     }
 }
 

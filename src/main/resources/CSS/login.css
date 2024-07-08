@@ -1,0 +1,20 @@
+.button {
+    -fx-background-color: #2196f3;
+      -fx-text-fill: #ffffff;
+      -fx-font-weight: bold;
+      -fx-pref-width: 250px;
+      -fx-pref-height: 35;
+      -fx-background-radius: 25;
+      -fx-border-radius: 25;
+      -fx-padding: 5;
+}
+.text-field {
+    -fx-border-radius: 25;
+    -fx-background-radius: 25;
+    -fx-pref-height: 30;
+    -fx-padding: 10;
+}
+.button:hover {
+  -fx-background-color: #3354F4;
+  -fx-text-fill: white;
+}

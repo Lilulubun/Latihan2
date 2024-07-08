@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="720.0" minWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.latihan2.LoginController">
+    <VBox alignment="CENTER" layoutX="523.0" layoutY="170.0" spacing="20.0">
+        <ImageView fx:id="logoImage" fitHeight="150.0" fitWidth="150.0" preserveRatio="true" />
+        <TextField fx:id="usernameField" promptText="Nama Pengguna" styleClass="text-field" />
+        <PasswordField fx:id="passwordField" promptText="Kata Sandi" styleClass="text-field" />
+        <Button fx:id="loginButton" onAction="#handleLoginAction" text="Login" />
+        <HBox alignment="CENTER" spacing="5.0">
+            <Label text="Belum Punya akun?">
+            <font>
+               <Font size="10.0" />
+            </font></Label>
+            <Hyperlink fx:id="registerLink" onAction="#handleRegisterAction" text="Daftar Sekarang">
+            <font>
+               <Font size="10.0" />
+            </font></Hyperlink>
+        </HBox>
+    </VBox>
+</AnchorPane>
