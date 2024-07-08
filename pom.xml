@@ -47,6 +47,66 @@
 
     <build>
         <plugins>
+            <!-- Maven Assembly Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.example.latihan2.MainApp</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Maven AntRun Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>create-scripts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Create run.sh for Unix-like systems -->
+                                <echo file="${project.build.directory}/run.sh" append="false">
+                                    <![CDATA[
+                                #!/bin/bash
+                                java -jar ${project.build.directory}/${project.build.finalName}-jar-with-dependencies.jar
+                                ]]>
+                                </echo>
+
+                                <!-- Create run.bat for Windows -->
+                                <echo file="${project.build.directory}/run.bat" append="false">
+                                    <![CDATA[
+                                @echo off
+                                java -jar ${project.build.directory}\${project.build.finalName}-jar-with-dependencies.jar
+                                ]]>
+                                </echo>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
