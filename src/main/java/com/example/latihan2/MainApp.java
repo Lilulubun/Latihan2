@@ -117,7 +117,7 @@ public class MainApp extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("AdminOverview.fxml"));
             Parent root = fxmlLoader.load();
             adminOverviewController = fxmlLoader.getController();
-            adminOverviewController.init(this);
+            adminOverviewController.init(this, daftarAduan);
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/CSS/adminOverview.css").toExternalForm());
             primaryStage.setTitle("Urbanify - Admin Overview");

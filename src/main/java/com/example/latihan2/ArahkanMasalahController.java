@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -126,39 +127,40 @@ public class ArahkanMasalahController implements Initializable {
         }
     }
     private void updateAduanStatusInCSV(AduanModel updatedAduan) {
-        // Using relative path to the project directory
         String csvFilePath = "src/main/resources/CSV/aduan.csv";
 
-        // Check current working directory
-//        System.out.println("Current working directory: " + System.getProperty("user.dir"));
-
-        // Check if the file exists and print the absolute path for debugging
         File file = new File(csvFilePath);
         if (!file.exists()) {
             showAlert("Error", "CSV file not found at: " + file.getAbsolutePath());
-            System.out.println("CSV file path: " + file.getAbsolutePath());
             return;
-        } else {
-//            System.out.println("CSV file path: " + file.getAbsolutePath());
         }
 
-        List<String[]> csvData;
+        List<String[]> csvData = new ArrayList<>();
 
         // Read the CSV file
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            csvData = br.lines().map(line -> line.split(",")).collect(Collectors.toList());
+            String line;
+            while ((line = br.readLine()) != null) {
+                csvData.add(line.split(","));
+            }
         } catch (IOException e) {
             showAlert("Error", "Failed to read CSV file.");
             e.printStackTrace();
             return;
         }
-
         // Update the relevant row
+        boolean updated = false;
         for (String[] row : csvData) {
-            if (row[0].equals(updatedAduan.getProfil()) && row[1].equals(updatedAduan.getJudul())) {
+            if (row[0].equals(updatedAduan.getProfil()) && row[1].equals(updatedAduan.getJudul()+" - "+updatedAduan.getKategori())) {
                 row[4] = updatedAduan.getStatus(); // Assuming status is at index 4
+                updated = true;
                 break;
             }
+        }
+
+        if (!updated) {
+            showAlert("Error", "Aduan not found in CSV.");
+            return;
         }
 
         // Write the updated data back to the CSV

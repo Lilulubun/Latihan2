@@ -23,6 +23,7 @@ public class AduanModel {
         this.status = status;
         this.detil = detil;
     }
+
     private String extractJudul(String informasiUmum) {
         // Assuming informasiUmum format is "judul - kategori"
         return informasiUmum.split(" - ")[0];

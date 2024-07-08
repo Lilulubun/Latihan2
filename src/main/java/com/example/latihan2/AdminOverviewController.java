@@ -39,8 +39,9 @@ public class AdminOverviewController implements Initializable {
     private MainApp mainApp;
     private ObservableList<AduanModel> daftarAduan;
 
-    public void init(MainApp mainApp) {
+    public void init(MainApp mainApp, ObservableList<AduanModel> daftarAduan) {
         this.mainApp = mainApp;
+        this.daftarAduan = daftarAduan;
     }
 
     @Override
