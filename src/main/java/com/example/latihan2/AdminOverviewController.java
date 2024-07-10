@@ -8,12 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
-import java.io.BufferedWriter;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -36,11 +34,11 @@ public class AdminOverviewController implements Initializable {
     @FXML
     private StackPane chartWrapper;
 
-    private MainApp mainApp;
+    private AllScenes allScenes;
     private ObservableList<AduanModel> daftarAduan;
 
-    public void init(MainApp mainApp, ObservableList<AduanModel> daftarAduan) {
-        this.mainApp = mainApp;
+    public void init(AllScenes allScenes, ObservableList<AduanModel> daftarAduan) {
+        this.allScenes = allScenes;
         this.daftarAduan = daftarAduan;
     }
 
@@ -129,9 +127,9 @@ public class AdminOverviewController implements Initializable {
         adminOverviewBG.setImage(image);
     }
     private void handleDashboardAction(ActionEvent actionEvent){
-        mainApp.switchToAdminDashboardScene();
+        allScenes.switchToAdminDashboardScene();
     }
     private void handleOverviewAction(ActionEvent actionEvent){
-        mainApp.switchToAdminOverviewScene();
+        allScenes.switchToAdminOverviewScene();
     }
 }

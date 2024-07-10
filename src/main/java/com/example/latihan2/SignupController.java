@@ -1,6 +1,5 @@
 package com.example.latihan2;
 
-import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -10,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import javax.naming.InitialContext;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -31,9 +29,9 @@ public class SignupController implements Initializable {
     private Button signupButton;
     @FXML
     private ImageView signupBG;
-    private MainApp mainApp;
-    public void init(MainApp mainApp) {
-        this.mainApp = mainApp;
+    private AllScenes allScenes;
+    public void init(AllScenes allScenes) {
+        this.allScenes = allScenes;
     }
 
     @Override
@@ -47,7 +45,7 @@ public class SignupController implements Initializable {
                 // Save data to CSV
                 saveToCSV();
                 // Optionally, navigate to another scene or perform other actions
-                mainApp.switchToLoginScene();
+                allScenes.switchToLoginScene();
             }
         });
     }
@@ -75,7 +73,7 @@ public class SignupController implements Initializable {
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
         UserModel newUser = new UserModel(username, name, password, false);
-        mainApp.getDaftarUser().add(newUser);
+        allScenes.getDaftarUser().add(newUser);
     }
     private boolean validateInput() {
         String username = usernameField.getText();

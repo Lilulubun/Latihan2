@@ -39,7 +39,7 @@ public class ArahkanMasalahController implements Initializable {
     private Button searchButton;
     @FXML
     private TextField searchInput;
-    private MainApp mainApp;
+    private AllScenes allScenes;
     private ObservableList<DinasModel> daftarDinas = FXCollections.observableArrayList();
     private ObservableList<AduanModel> daftarAduan;
     private AduanModel selectedAduan;
@@ -70,8 +70,8 @@ public class ArahkanMasalahController implements Initializable {
         arahkanMasalahBG.setImage(image);
     }
 
-    public void init(MainApp mainApp, AduanModel selectedAduan, ObservableList<AduanModel> daftarAduan) {
-        this.mainApp = mainApp;
+    public void init(AllScenes allScenes, AduanModel selectedAduan, ObservableList<AduanModel> daftarAduan) {
+        this.allScenes = allScenes;
         this.selectedAduan = selectedAduan;
         this.daftarAduan = daftarAduan;
         loadCSVData();
@@ -79,9 +79,9 @@ public class ArahkanMasalahController implements Initializable {
     public void setAduanModel(AduanModel aduanModel) {
         this.selectedAduan = aduanModel;
     }
-    public void setAdminDashboardController(AdminDashboardController adminDashboardController, MainApp mainApp){
+    public void setAdminDashboardController(AdminDashboardController adminDashboardController, AllScenes allScenes){
         this.adminDashboardController = adminDashboardController;
-        this.mainApp = mainApp;
+        this.allScenes = allScenes;
     }
     private void loadCSVData() {
         CSVRowMapper<DinasModel> mapper = values -> new DinasModel(values[0], values[1], values[2], values[3], values[4]);
@@ -115,7 +115,7 @@ public class ArahkanMasalahController implements Initializable {
             updateAduanStatusInCSV(selectedAduan);
             updateAduanStatusInMemory(selectedAduan);
             showAlert("Sukses", "Aduan Berhasil diarahkan");
-            mainApp.switchToAdminDashboardScene();
+            allScenes.switchToAdminDashboardScene();
         }
     }
     private void updateAduanStatusInMemory(AduanModel updatedAduan) {

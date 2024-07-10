@@ -1,6 +1,5 @@
 package com.example.latihan2;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,25 +9,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import org.controlsfx.glyphfont.Glyph;
-import org.controlsfx.glyphfont.GlyphFont;
-import org.controlsfx.glyphfont.GlyphFontRegistry;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class AdminDashboardController implements Initializable {
@@ -58,13 +42,13 @@ public class AdminDashboardController implements Initializable {
     private Button dashboardButton;
     @FXML
     private Button overviewButton;
-    private MainApp mainApp;
+    private AllScenes allScenes;
     private ObservableList<AduanModel> daftarAduan;
 
 
 
-    public void init(MainApp mainApp, ObservableList<AduanModel> daftarAduan) {
-        this.mainApp = mainApp;
+    public void init(AllScenes allScenes, ObservableList<AduanModel> daftarAduan) {
+        this.allScenes = allScenes;
         this.daftarAduan = daftarAduan;
         loadData();
     }
@@ -136,15 +120,15 @@ public class AdminDashboardController implements Initializable {
         if (selectedAduan == null) {
             this.showAlert("No Selection", "Pilih salah satu Aduan untuk diarahkan");
         } else {
-            mainApp.switchToArahkanMasalahScene(selectedAduan);
+            allScenes.switchToArahkanMasalahScene(selectedAduan);
         }
 
     }
     private void handleDashboardAction(ActionEvent actionEvent) {
-        mainApp.switchToAdminDashboardScene();
+        allScenes.switchToAdminDashboardScene();
     }
     private void handleOverviewAction(ActionEvent actionEvent){
-        mainApp.switchToAdminOverviewScene();
+        allScenes.switchToAdminOverviewScene();
     }
 
     private void showAlert(String title, String content) {

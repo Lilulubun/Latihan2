@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainApp extends Application {
+public class AllScenes extends Application {
 
     private Stage primaryStage;
     private ObservableList<AduanModel> daftarAduan = FXCollections.observableArrayList();
@@ -38,7 +38,7 @@ public class MainApp extends Application {
     }
     public void switchToLoginScene() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("Login.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(AllScenes.class.getResource("Login.fxml"));
             Parent root = fxmlLoader.load();
             loginController = fxmlLoader.getController();
             loginController.init(this);
@@ -54,7 +54,7 @@ public class MainApp extends Application {
     }
     public void switchToSignupScene() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("Signup.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(AllScenes.class.getResource("Signup.fxml"));
             Parent root = fxmlLoader.load();
             signupController = fxmlLoader.getController();
             signupController.init(this);
@@ -96,7 +96,7 @@ public class MainApp extends Application {
 
     public void switchToAddAduanScene() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("AddAduan.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(AllScenes.class.getResource("AddAduan.fxml"));
             Parent root = fxmlLoader.load();
             addAduanController = fxmlLoader.getController();
             addAduanController.init(this);
@@ -114,7 +114,7 @@ public class MainApp extends Application {
     }
     public void switchToAdminOverviewScene() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("AdminOverview.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(AllScenes.class.getResource("AdminOverview.fxml"));
             Parent root = fxmlLoader.load();
             adminOverviewController = fxmlLoader.getController();
             adminOverviewController.init(this, daftarAduan);
@@ -131,7 +131,7 @@ public class MainApp extends Application {
 
     public void switchToUserDashboardScene() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("UserDashboard.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(AllScenes.class.getResource("UserDashboard.fxml"));
             Parent root = fxmlLoader.load();
             userDashboardController = fxmlLoader.getController();
             userDashboardController.init(this, daftarAduan);
@@ -148,7 +148,7 @@ public class MainApp extends Application {
     }
     public void switchToAdminDashboardScene() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("AdminDashboard.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(AllScenes.class.getResource("AdminDashboard.fxml"));
             Parent root = fxmlLoader.load();
             adminDashboardController = fxmlLoader.getController();
             adminDashboardController.init(this, daftarAduan);
@@ -168,7 +168,7 @@ public class MainApp extends Application {
     public void switchToArahkanMasalahScene(AduanModel aduanModel) {
         try {
             this.selectedAduan = aduanModel;
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("ArahkanMasalah.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(AllScenes.class.getResource("ArahkanMasalah.fxml"));
             Parent root = fxmlLoader.load();
             arahkanMasalahController = fxmlLoader.getController();
             arahkanMasalahController.init(this, selectedAduan, daftarAduan);

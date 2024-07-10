@@ -2,15 +2,12 @@ package com.example.latihan2;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -53,7 +50,7 @@ public class UserDashboardController implements Initializable {
     private Label userNameLabel;
     private ObservableList<AduanModel> aduanList = FXCollections.observableArrayList();
     private List<AduanModel> aduanModelList = new ArrayList<>();
-    private MainApp mainApp;
+    private AllScenes allScenes;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -79,9 +76,9 @@ public class UserDashboardController implements Initializable {
     public void updateTableData(AduanModel newAduanModel) {
         aduanList.add(newAduanModel);
     }
-    public void init(MainApp mainApp, ObservableList<AduanModel> daftarAduan) {
-        this.mainApp = mainApp;
-        UserModel loggedInUser = mainApp.getLoggedInUser();
+    public void init(AllScenes allScenes, ObservableList<AduanModel> daftarAduan) {
+        this.allScenes = allScenes;
+        UserModel loggedInUser = allScenes.getLoggedInUser();
         if (loggedInUser != null) {
             String userName = loggedInUser.getName().toLowerCase();
             ObservableList<AduanModel> filteredList = FXCollections.observableArrayList(
@@ -176,7 +173,7 @@ public class UserDashboardController implements Initializable {
         tableView.setItems(aduanList);
     }
     public void handleAddAduanAction() {
-        mainApp.switchToAddAduanScene();
+        allScenes.switchToAddAduanScene();
     }
     public void setUserName(String userName) {
         userNameLabel.setText(userName);

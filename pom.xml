@@ -55,7 +55,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.example.latihan2.MainApp</mainClass>
+                            <mainClass>com.example.latihan2.AllScenes</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -125,7 +125,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.latihan2/com.example.latihan2.MainApp</mainClass>
+                            <mainClass>com.example.latihan2/com.example.latihan2.AllScenes</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

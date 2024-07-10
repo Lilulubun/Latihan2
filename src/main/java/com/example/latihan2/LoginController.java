@@ -21,9 +21,9 @@ public class LoginController implements Initializable {
     @FXML
     private ImageView logoImage;
 
-    private MainApp mainApp;
-    public void init(MainApp mainApp) {
-        this.mainApp = mainApp;
+    private AllScenes allScenes;
+    public void init(AllScenes allScenes) {
+        this.allScenes = allScenes;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class LoginController implements Initializable {
             return;
         }
 
-        UserModel user = mainApp.getAllUser().stream()
+        UserModel user = allScenes.getAllUser().stream()
                 .filter(u -> u.getUsername().equals(username) && u.getPassword().equals(password))
                 .findFirst()
                 .orElse(null);
@@ -50,17 +50,17 @@ public class LoginController implements Initializable {
         if (user == null) {
             showAlert(Alert.AlertType.ERROR, "Error", "Invalid username or password");
         } else {
-            mainApp.setLoggedInUser(user); // Set the logged-in user in MainApp
+            allScenes.setLoggedInUser(user); // Set the logged-in user in MainApp
             if (user.isAdmin()) {
-                mainApp.switchToAdminDashboardScene();
+                allScenes.switchToAdminDashboardScene();
             } else {
-                mainApp.switchToUserDashboardScene();
+                allScenes.switchToUserDashboardScene();
             }
         }
     }
     @FXML
     private void handleRegisterAction(){
-        mainApp.switchToSignupScene();
+        allScenes.switchToSignupScene();
     }
     private void setImage(String imageUrl) {
         Image image = new Image(getClass().getResourceAsStream(imageUrl));

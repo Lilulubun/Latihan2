@@ -1,15 +1,11 @@
 package com.example.latihan2;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.fxml.Initializable;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -54,7 +50,7 @@ public class AddAduanController implements Initializable {
     private CSVReader<AduanModel> csvReader;
     private List<AduanModel> aduanModelList;
     private CSVRowMapper<AduanModel> csvRowMapper;
-    private MainApp mainApp;
+    private AllScenes allScenes;
     private UserModel loggedInUser;
 
     public AddAduanController(){
@@ -65,8 +61,8 @@ public class AddAduanController implements Initializable {
     public void setUserDashboardController(UserDashboardController userDashboardController) {
         this.userDashboardController = userDashboardController;
     }
-    public void init(MainApp mainApp) {
-        this.mainApp = mainApp;
+    public void init(AllScenes allScenes) {
+        this.allScenes = allScenes;
     }
 
     private void setImage(String imageUrl) {
@@ -152,7 +148,7 @@ public class AddAduanController implements Initializable {
             // Notify user of success
             showAlert(Alert.AlertType.INFORMATION, "Success", "Aduan berhasil disimpan!");
             AduanModel newAduanModel = mapToAduanModel(csvData.split(","));
-            mainApp.addAduan(newAduanModel); // Add to daftarAduan list
+            allScenes.addAduan(newAduanModel); // Add to daftarAduan list
 //            userDashboardController.updateTableData(newAduanModel);
             switchToUserDashboardScene();
 
@@ -216,7 +212,7 @@ public class AddAduanController implements Initializable {
         }
     }
     private void switchToUserDashboardScene() {
-        mainApp.switchToUserDashboardScene();
+        allScenes.switchToUserDashboardScene();
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
