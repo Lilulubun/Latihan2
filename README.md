@@ -26,6 +26,7 @@ To build the project, follow these steps:
     ```sh
     mvn clean package
     ```
+    After building the project there will be target folder.
 
 ## Running the Application
 
