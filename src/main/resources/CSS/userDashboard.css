@@ -62,3 +62,7 @@
 .table-cell .label {
   -fx-font-size: 14px;
 }
+.table-cell {
+    -fx-padding: 5px; /* Adjust padding as needed */
+    -fx-wrap-text: true;
+}

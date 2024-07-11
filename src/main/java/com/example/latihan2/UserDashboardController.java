@@ -4,11 +4,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -48,33 +56,20 @@ public class UserDashboardController implements Initializable {
     private Button deleteAduanButton;
     @FXML
     private Label userNameLabel;
+    @FXML private Button logOutButton;
     private ObservableList<AduanModel> aduanList = FXCollections.observableArrayList();
     private List<AduanModel> aduanModelList = new ArrayList<>();
     private AllScenes allScenes;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String imageUrl = "/images/UserDashboard.png";
-        setImage(imageUrl);
-        // Initialize table columns
+        setImage("/images/UserDashboard.png");
         initializeTableColumns();
-        // Load data from CSV
-//        loadCSVDataToList();
-//        tableView.setItems(aduanList);
         addAduanButton.setOnAction(event -> handleAddAduanAction());
-        // Set search button action
         searchButton.setOnAction(event -> filterData());
         searchInput.setOnAction(event -> filterData());
         deleteAduanButton.setOnAction(event -> handleDeleteAduanAction());
-    }
-    private void loadCSVDataToList() {
-        CSVRowMapper<AduanModel> mapper = values -> new AduanModel(values[0], values[1], values[2], values[3], values[4], values[5]);
-        CSVReader<AduanModel> csvReader = new CSVReader<>("/CSV/aduan.csv", mapper);
-        aduanModelList.addAll(csvReader.readCSV());
-        aduanList.setAll(aduanModelList);
-    }
-    public void updateTableData(AduanModel newAduanModel) {
-        aduanList.add(newAduanModel);
+        logOutButton.setOnAction(event -> handleLogoutAction());
     }
     public void init(AllScenes allScenes, ObservableList<AduanModel> daftarAduan) {
         this.allScenes = allScenes;
@@ -124,8 +119,48 @@ public class UserDashboardController implements Initializable {
         tautanCepatColumn.setCellValueFactory(new PropertyValueFactory<>("tautanCepat"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         detilColumn.setCellValueFactory(new PropertyValueFactory<>("detil"));
-    }
 
+        profilColumn.setCellFactory(column -> new WrappingTableCell<>());
+        judulColumn.setCellFactory(column -> new WrappingTableCell<>());
+        waktuTempatColumn.setCellFactory(column -> new WrappingTableCell<>());
+        tautanCepatColumn.setCellFactory(column -> new TableCell<AduanModel, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    Path path = Paths.get(item);
+                    setText(path.getFileName().toString());
+                    setStyle("-fx-text-fill: blue; -fx-underline: true;");
+                    setOnMouseClicked((MouseEvent event) -> {
+                        if (event.getClickCount() == 1 && !isEmpty()) {
+                            showTautanCepat(item);
+                        }
+                    });
+                }
+            }
+        });
+        statusColumn.setCellFactory(column -> new WrappingTableCell<>());
+        detilColumn.setCellFactory(column -> new WrappingTableCell<>());
+    }
+    private void showTautanCepat(String imagePath) {
+        Stage stage = new Stage();
+        ImageView imageView = new ImageView(new Image("file:" + imagePath));
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(600); // Adjust the width as needed
+        imageView.setFitHeight(400); // Adjust the height as needed
+
+        StackPane pane = new StackPane();
+        pane.getChildren().add(imageView);
+        StackPane.setAlignment(imageView, Pos.CENTER);
+
+        Scene scene = new Scene(pane, 600, 400);
+        stage.setScene(scene);
+        stage.setTitle("Image Viewer");
+        stage.initModality(Modality.APPLICATION_MODAL); // Block other windows until this one is closed
+        stage.showAndWait();
+    }
     // Method to set image to ImageView
     private void setImage(String imageUrl) {
         Image image = new Image(getClass().getResourceAsStream(imageUrl));
@@ -164,19 +199,14 @@ public class UserDashboardController implements Initializable {
             e.printStackTrace();
         }
     }
-
-    public void loadCSVData() {
-        CSVRowMapper<AduanModel> mapper = values -> new AduanModel(values[0], values[1], values[2], values[3], values[4], values[5]);
-        CSVReader<AduanModel> csvReader = new CSVReader<>("/CSV/aduan.csv", mapper);
-        aduanList.setAll(csvReader.readCSV());
-        //List<AduanModel> aduanList = csvReader.readCSV();
-        tableView.setItems(aduanList);
-    }
     public void handleAddAduanAction() {
         allScenes.switchToAddAduanScene();
     }
     public void setUserName(String userName) {
         userNameLabel.setText(userName);
+    }
+    private void handleLogoutAction() {
+        allScenes.switchToLoginScene();
     }
 }
 

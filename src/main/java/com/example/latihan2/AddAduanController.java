@@ -150,7 +150,7 @@ public class AddAduanController implements Initializable {
             AduanModel newAduanModel = mapToAduanModel(csvData.split(","));
             allScenes.addAduan(newAduanModel); // Add to daftarAduan list
 //            userDashboardController.updateTableData(newAduanModel);
-            switchToUserDashboardScene();
+            allScenes.switchToUserDashboardScene();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -210,9 +210,6 @@ public class AddAduanController implements Initializable {
             // Notify user of error
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to copy image.");
         }
-    }
-    private void switchToUserDashboardScene() {
-        allScenes.switchToUserDashboardScene();
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {

@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllScenes extends Application {
+public class AllScenes {
 
     private Stage primaryStage;
     private ObservableList<AduanModel> daftarAduan = FXCollections.observableArrayList();
@@ -29,12 +29,29 @@ public class AllScenes extends Application {
     private SignupController signupController;
     private UserModel loggedInUser;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        loadCSVData();
-        loadUserData();
-        switchToLoginScene();
+    }
+    public void loadUserData() {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("src/main/resources/CSV/users.csv"));
+            for (String line : lines) {
+                String[] values = line.split(",");
+                String username = values[0];
+                String name = values[1];
+                String password = values[2];
+                boolean isAdmin = values[3].equalsIgnoreCase("yes");
+                users.add(new UserModel(username, name, password, isAdmin));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void loadCSVData() {
+        CSVRowMapper<AduanModel> mapper = values -> new AduanModel(values[0], values[1], values[2], values[3], values[4], values[5]);
+        CSVReader<AduanModel> csvReader = new CSVReader<>("/CSV/aduan.csv", mapper);
+        List<AduanModel> aduanList = csvReader.readCSV();
+        daftarAduan.setAll(aduanList);
     }
     public void switchToLoginScene() {
         try {
@@ -68,32 +85,6 @@ public class AllScenes extends Application {
             // Handle exception as needed
         }
     }
-    private void loadUserData() {
-        try {
-            List<String> lines = Files.readAllLines(Paths.get("src/main/resources/CSV/users.csv"));
-            for (String line : lines) {
-                String[] values = line.split(",");
-                String username = values[0];
-                String name = values[1];
-                String password = values[2];
-                boolean isAdmin = values[3].equalsIgnoreCase("yes");
-                users.add(new UserModel(username, name, password, isAdmin));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    private void loadCSVData() {
-        CSVRowMapper<AduanModel> mapper = values -> new AduanModel(values[0], values[1], values[2], values[3], values[4], values[5]);
-        CSVReader<AduanModel> csvReader = new CSVReader<>("/CSV/aduan.csv", mapper);
-        List<AduanModel> aduanList = csvReader.readCSV();
-        daftarAduan.setAll(aduanList);
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     public void switchToAddAduanScene() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(AllScenes.class.getResource("AddAduan.fxml"));
@@ -135,7 +126,7 @@ public class AllScenes extends Application {
             Parent root = fxmlLoader.load();
             userDashboardController = fxmlLoader.getController();
             userDashboardController.init(this, daftarAduan);
-            userDashboardController.refreshTableData(); // Refresh da
+            userDashboardController.refreshTableData();
             Scene scene = new Scene(root, 1280, 720);
             scene.getStylesheets().add(getClass().getResource("/CSS/userDashboard.css").toExternalForm());
             primaryStage.setTitle("Urbanify - Dashboard");
