@@ -21,8 +21,9 @@ To build the project, follow these steps:
 
 2. **Download the JavaFX SDK**:
     Download the JavaFX SDK from the [Gluon website](https://gluonhq.com/products/javafx/) and extract it to a known location. Set the `PATH_TO_FX` environment variable to the location of the extracted JavaFX SDK.
+    If you have already, skip this step
 
-3. **Build the project**:
+4. **Build the project**:
     ```sh
     mvn clean package
     ```
