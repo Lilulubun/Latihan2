@@ -15,7 +15,7 @@ To build the project, follow these steps:
 
 1. **Clone the repository**:
     ```sh
-    git clone <repository-url>
+    git clone https://github.com/Lilulubun/Urbanify.git
     cd Urbanify
     ```
 
