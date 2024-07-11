@@ -147,10 +147,6 @@ The Maven configuration for this project includes the necessary plugins and depe
 </build>
 ```
 
-## License
-
-This project is licensed under the MIT License.
+Thank You
 
 ---
-
-Feel free to modify this `README.md` file to include additional details about your project as necessary.
